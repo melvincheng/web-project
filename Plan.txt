@@ -1,0 +1,11 @@
+Plan
+
+Aggregator using News API - https://newsapi.org/
+
+aggregates based on category, source, and time
+- using user settings, users can customized what they want to show
+- accordian to show and hide based off sorting
+
+login page
+
+registration page
