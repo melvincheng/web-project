@@ -47,13 +47,13 @@ $(document).ready(function () {
     var gaming = $('<div>');
     $(gaming).append($('<header>').append('Gaming'));
     var general = $('<div>');
-    $(General).append($('<header>').append('General'));
+    $(general).append($('<header>').append('General'));
     var music = $('<div>');
     $(music).append($('<header>').append('Music'));
     var science = $('<div>');
-    $(Science).append($('<header>').append('Science and nature'));
+    $(science).append($('<header>').append('Science and nature'));
     var sport = $('<div>');
-    $(Sport).append($('<header>').append('Sport'));
+    $(sport).append($('<header>').append('Sport'));
     var tech = $('<div>');
     $(tech).append($('<header>').append('Technology'));
     
@@ -134,13 +134,17 @@ function addArticleCategory(data, category) {
 
 
     title.append(url);
+    title.addClass('title');
 
     author.append('By: ' + $(pulledArticle[j]).attr('author'));
+    author.addClass('author');
 
     description.append($(pulledArticle[j]).attr('description'));
+    description.addClass('content');
 
     url.attr('href', $(pulledArticle[j]).attr('url'));
     url.append($(pulledArticle[j]).attr('title'));
+    url.addClass('link');
 
 
     article.append(title);
