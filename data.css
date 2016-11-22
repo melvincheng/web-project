@@ -1,5 +1,5 @@
 .title {
-
+  
 }
 
 .author {
@@ -8,4 +8,16 @@
 
 .content {
 
+}
+
+.link {
+  color: black; 
+}
+
+.article {
+  margin: 5px;
+}
+
+.categoryHeader {
+  font-size: 3em;
 }

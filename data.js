@@ -41,21 +41,25 @@ $(document).ready(function () {
   
   function mainCategory() {
     var business = $('<div>');
-    $(business).append($('<header>').append('Business'));
+    var businessArticles = $('<div>').attr('id','businessArticles');
+    $(business).append($('<header>').append('Business').addClass('categoryHeader').attr('data-toggle','collapse').attr('data-target','#businessArticles'));
+    $(business).attr('id','business');  
+    $(business).append(businessArticles);
+    
     var entertainment = $('<div>');
-    $(entertainment).append($('<header>').append('Entertainment'));
+    $(entertainment).append($('<header>').append('Entertainment').addClass('categoryHeader'));
     var gaming = $('<div>');
-    $(gaming).append($('<header>').append('Gaming'));
+    $(gaming).append($('<header>').append('Gaming').addClass('categoryHeader'));
     var general = $('<div>');
-    $(general).append($('<header>').append('General'));
+    $(general).append($('<header>').append('General').addClass('categoryHeader'));
     var music = $('<div>');
-    $(music).append($('<header>').append('Music'));
+    $(music).append($('<header>').append('Music').addClass('categoryHeader'));
     var science = $('<div>');
-    $(science).append($('<header>').append('Science and nature'));
+    $(science).append($('<header>').append('Science and nature').addClass('categoryHeader'));
     var sport = $('<div>');
-    $(sport).append($('<header>').append('Sport'));
+    $(sport).append($('<header>').append('Sport').addClass('categoryHeader'));
     var tech = $('<div>');
-    $(tech).append($('<header>').append('Technology'));
+    $(tech).append($('<header>').append('Technology').addClass('categoryHeader'));
     
     $(body).append(business);
     $(body).append(entertainment);
@@ -73,55 +77,55 @@ $(document).ready(function () {
         case 'business':
           $.get(sourceLink, function(data) {
             
-            addArticleCategory(data, business)
+            addArticleCategory(data, businessArticles)
           });
           break;
-        case 'entertainment':
-          $.get(sourceLink, function(data) {
-            
-            addArticleCategory(data, entertainment)
-          });
-          break;
-        case 'gaming':
-          $.get(sourceLink, function(data) {
-            
-            addArticleCategory(data, gaming)
-          });
-          break;
-        case 'general':
-          $.get(sourceLink, function(data) {
-            
-            addArticleCategory(data, general)
-          });
-          break;
-        case 'music':
-          $.get(sourceLink, function(data) {
-            
-            addArticleCategory(data, music)
-          });
-          break;
-        case 'science-and-nature':
-          $.get(sourceLink, function(data) {
-            
-            addArticleCategory(data, science)
-          });
-          break;
-        case 'sport':
-          $.get(sourceLink, function(data) {
-            
-            addArticleCategory(data, sport)
-          });
-          break;
-        case 'technology':
-          $.get(sourceLink, function(data) {
-            
-            addArticleCategory(data, tech)
-          });
-          break;
+//        case 'entertainment':
+//          $.get(sourceLink, function(data) {
+//            
+//            addArticleCategory(data, entertainment)
+//          });
+//          break;
+//        case 'gaming':
+//          $.get(sourceLink, function(data) {
+//            
+//            addArticleCategory(data, gaming)
+//          });
+//          break;
+//        case 'general':
+//          $.get(sourceLink, function(data) {
+//            
+//            addArticleCategory(data, general)
+//          });
+//          break;
+//        case 'music':
+//          $.get(sourceLink, function(data) {
+//            
+//            addArticleCategory(data, music)
+//          });
+//          break;
+//        case 'science-and-nature':
+//          $.get(sourceLink, function(data) {
+//            
+//            addArticleCategory(data, science)
+//          });
+//          break;
+//        case 'sport':
+//          $.get(sourceLink, function(data) {
+//            
+//            addArticleCategory(data, sport)
+//          });
+//          break;
+//        case 'technology':
+//          $.get(sourceLink, function(data) {
+//            
+//            addArticleCategory(data, tech)
+//          });
+//          break;
       }
   }
 }
-  
+
 function addArticleCategory(data, category) {
 //  console.log(data);
   for(var j=0; j < $(data).attr('articles').length; j++){
@@ -130,6 +134,7 @@ function addArticleCategory(data, category) {
     var title = $('<div>');
     var author = $('<div>');
     var description = $('<div>');
+    var content = $('<div>');
     var url = $('<a>');
 
 
@@ -150,13 +155,12 @@ function addArticleCategory(data, category) {
     article.append(title);
     article.append(author);
     article.append(description);
+    article.addClass('article');
     
     category.append(article);
   }
 } 
-  
-  
-  
+
 //  $.when(getSource()).done(function() {
 //    console.log(sources.length);
 //    for(var i = 0; i < sources.length; i++){
