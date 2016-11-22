@@ -1,0 +1,21 @@
+{
+  "name": "web-project",
+  "version": "1.0.0",
+  "description": "web-project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Melvin Cheng",
+  "license": "0BSD",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-session": "^1.13.0",
+    "mongoose": "^4.5.1",
+    "node-uuid": "^1.4.7",
+    "pug": "^2.0.0-beta3"
+  }
+}
