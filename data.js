@@ -3,14 +3,8 @@ $(document).ready(function () {
   var sort = 'category';
   var sources;
   var articleList = [];
-  
-  var category = ['business', 'entertainment', 'gaming', 'general', 'music', 'science-and-nature', 'sport', 'technology'];
   var language;
   var country;
-  
-//  $.get('https://newsapi.org/v1/sources?language=en', function(data) {
-//    console.log(data);
-//  });
   
   function getSource() {
    return $.ajax({
@@ -40,90 +34,80 @@ $(document).ready(function () {
   getSource().then(getArticles).then(mainCategory);
   
   function mainCategory() {
-    var business = $('<div>');
-    var businessArticles = $('<div>').attr('id','businessArticles');
-    $(business).append($('<header>').append('Business').addClass('categoryHeader').attr('data-toggle','collapse').attr('data-target','#businessArticles'));
-    $(business).attr('id','business');  
-    $(business).append(businessArticles);
+    var category = ['business', 'entertainment', 'gaming', 'general', 'music', 'science-and-nature', 'sport', 'technology'];
+    var categoryName = ['Business', 'Entertainment', 'Gaming', 'General', 'Music', 'Science and nature', 'Sports', 'Technology'];
+    var categoryDiv = [$('<div>'), $('<div>'), $('<div>'), $('<div>'), $('<div>'), $('<div>'), $('<div>'), $('<div>')];
+    var categoryArticles = [];
     
-    var entertainment = $('<div>');
-    $(entertainment).append($('<header>').append('Entertainment').addClass('categoryHeader'));
-    var gaming = $('<div>');
-    $(gaming).append($('<header>').append('Gaming').addClass('categoryHeader'));
-    var general = $('<div>');
-    $(general).append($('<header>').append('General').addClass('categoryHeader'));
-    var music = $('<div>');
-    $(music).append($('<header>').append('Music').addClass('categoryHeader'));
-    var science = $('<div>');
-    $(science).append($('<header>').append('Science and nature').addClass('categoryHeader'));
-    var sport = $('<div>');
-    $(sport).append($('<header>').append('Sport').addClass('categoryHeader'));
-    var tech = $('<div>');
-    $(tech).append($('<header>').append('Technology').addClass('categoryHeader'));
-    
-    $(body).append(business);
-    $(body).append(entertainment);
-    $(body).append(gaming);
-    $(body).append(general);
-    $(body).append(music);
-    $(body).append(science);
-    $(body).append(sport);
-    $(body).append(tech);
+    for(var i = 0; i < category.length; i++) {
+      var tempDiv = categoryDiv[i];
+      var tempArticle = $('<div>').attr('id', category[i]+'Articles').addClass('collapse');
+      categoryArticles.push(tempArticle);
+      
+      tempDiv.append($('<header>').append(categoryName[i]).addClass('categoryHeader').attr('data-toggle','collapse').attr('data-target','#' + category[i] + 'Articles'));
+      tempDiv.attr('id', category[i]);
+      tempDiv.append(tempArticle);
+      $(body).append(categoryDiv[i]);
+    }
+//    console.log(categoryArticles);
     for (var j = 0; j < sources.length; j++) {
       
       var sourceOrigin = $(sources[j]).attr('id');
       var sourceLink = 'https://newsapi.org/v1/articles?source=' + sourceOrigin + '&apiKey=98432bdc8b0d474797f981385df66c5f';
+      var index = category.indexOf($(sources[j]).attr('category'));
+    
+      var tempCategoryArticle = categoryArticles[index];
+        
       switch($(sources[j]).attr('category')){
         case 'business':
-          $.get(sourceLink, function(data) {
-            
-            addArticleCategory(data, businessArticles)
+          $.get(sourceLink, function(data){
+            addArticleCategory(data, categoryArticles[0]);
           });
           break;
-//        case 'entertainment':
-//          $.get(sourceLink, function(data) {
-//            
-//            addArticleCategory(data, entertainment)
-//          });
-//          break;
-//        case 'gaming':
-//          $.get(sourceLink, function(data) {
-//            
-//            addArticleCategory(data, gaming)
-//          });
-//          break;
-//        case 'general':
-//          $.get(sourceLink, function(data) {
-//            
-//            addArticleCategory(data, general)
-//          });
-//          break;
-//        case 'music':
-//          $.get(sourceLink, function(data) {
-//            
-//            addArticleCategory(data, music)
-//          });
-//          break;
-//        case 'science-and-nature':
-//          $.get(sourceLink, function(data) {
-//            
-//            addArticleCategory(data, science)
-//          });
-//          break;
-//        case 'sport':
-//          $.get(sourceLink, function(data) {
-//            
-//            addArticleCategory(data, sport)
-//          });
-//          break;
-//        case 'technology':
-//          $.get(sourceLink, function(data) {
-//            
-//            addArticleCategory(data, tech)
-//          });
-//          break;
+        case 'entertainment':
+          $.get(sourceLink, function(data) {
+            
+            addArticleCategory(data, categoryArticles[1]);
+          });
+          break;
+        case 'gaming':
+          $.get(sourceLink, function(data) {
+            
+            addArticleCategory(data, categoryArticles[2]);
+          });
+          break;
+        case 'general':
+          $.get(sourceLink, function(data) {
+            
+            addArticleCategory(data, categoryArticles[3]);
+          });
+          break;
+        case 'music':
+          $.get(sourceLink, function(data) {
+            
+            addArticleCategory(data, categoryArticles[4]);
+          });
+          break;
+        case 'science-and-nature':
+          $.get(sourceLink, function(data) {
+            
+            addArticleCategory(data, categoryArticles[5]);
+          });
+          break;
+        case 'sport':
+          $.get(sourceLink, function(data) {
+            
+            addArticleCategory(data, categoryArticles[6]);
+          });
+          break;
+        case 'technology':
+          $.get(sourceLink, function(data) {
+            
+            addArticleCategory(data, categoryArticles[7]);
+          });
+          break;
       }
-  }
+    }
 }
 
 function addArticleCategory(data, category) {
@@ -134,27 +118,29 @@ function addArticleCategory(data, category) {
     var title = $('<div>');
     var author = $('<div>');
     var description = $('<div>');
-    var content = $('<div>');
     var url = $('<a>');
+    
+    var content = $('<div>');
 
 
     title.append(url);
     title.addClass('title');
-
+    
     author.append('By: ' + $(pulledArticle[j]).attr('author'));
     author.addClass('author');
 
     description.append($(pulledArticle[j]).attr('description'));
-    description.addClass('content');
+    description.addClass('description');
 
     url.attr('href', $(pulledArticle[j]).attr('url'));
     url.append($(pulledArticle[j]).attr('title'));
     url.addClass('link');
 
+    content.append(author);
+    content.append(description);
 
     article.append(title);
-    article.append(author);
-    article.append(description);
+    article.append(content);
     article.addClass('article');
     
     category.append(article);

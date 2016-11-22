@@ -6,7 +6,7 @@
 
 }
 
-.content {
+.description {
 
 }
 
@@ -15,9 +15,10 @@
 }
 
 .article {
-  margin: 5px;
+  margin: 0 40px 5px 40px;
 }
 
 .categoryHeader {
   font-size: 3em;
+  margin: 0 20px 5px 20px;
 }
