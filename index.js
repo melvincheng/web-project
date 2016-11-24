@@ -38,6 +38,7 @@ app.use(session({
 
 
 function notLogged(request, response, next) {
+	console.log(request.user);
 	if(request.user){
 		response.redirect('/');
 	} else {
@@ -56,16 +57,13 @@ function logged(request, response, next) {
 function getUsername(request) {
 	var username = '';
 	if(request.session.username) {
-		username = session.username;
+		username = request.session.username;
 	}
 	return username;
 }
 
-
-
-
 app.get('/', function(request, response){
-	response.render('main');
+	response.render('main', {username:getUsername(request)});
 });
 
 app.get('/login', notLogged, function(request, response){
@@ -86,14 +84,12 @@ app.post('/postLogin', function(request, response){
 	} else {
 		User.find({username: username}).then(function(result){
 			if(result.length > 0) {
-				var hash = bcrypt.hashSync(password);
-				User.find({username: username, password: hash}).then(function(result){
-					if(result.length > 0) {
+					if(bcrypt.compareSync(password, result[0].password)){
+						request.session.username = username;
 						response.redirect('/');
 					} else {
 						response.render('login', {errorMessage:'Password is incorrect'});
 					}
-				});
 			} else {
 				response.render('login', {errorMessage:'Username does not exist'});
 			}
@@ -128,8 +124,7 @@ app.post('/postRegistration', function(request, response){
 				response.render('registration', {errorMessage: 'Passwords does not match'});
 			} else {
 				var hash = bcrypt.hashSync(password);
-				var newUser = new User({password: hash});
-	
+				var newUser = new User({username:username, password: hash});
 				newUser.save(function(error){
 					if(error) {
 						response.render('registration', {message: 'An error occur while trying to register'});	

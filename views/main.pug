@@ -17,17 +17,24 @@ html(lang="en")
 				div.navbar-header
 					a.navbar-brand(href="/") News Aggregator
 						small Powered by News API
-				if (!username || (username == ''))
-					ul.nav.navbar-nav.navbar-right
+				ul.nav.navbar-nav.navbar-right
+					if (!username || (username == ''))
 						li
 							a(href="/login")
 								span.glyphicon.glyphicon-log-in  Login
 						li
 							a(href="/registration")
 								span.glyphicon.glyphicon-user  Sign up
-				else
-					div #{username}
-					button.nav-btn(href="/logout") Log out
+					else
+						div.navbar-text Welcome, 
+						li.dropdown 
+							a.toggle-dropdown(data-toggle="dropdown") #{username}
+								span.caret
+							ul.dropdown-menu
+								li
+									a(href="/logout") Logout
+
+					
 		div(name="articles")
 		footer
 			a(href="https://newsapi.org/") News API
