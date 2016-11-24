@@ -79,6 +79,11 @@ app.post('/login', function(request, response){
 app.get('/registration', notLogged, function(request, response){
 	response.render('registration');
 });
+
+app.get('/postRegistration', function(request, response){
+	response.redirect('/registration');
+});
+
 app.post('/postRegistration', function(request, response){
 	var username = request.body.username;
 	var password = request.body.password;
@@ -89,14 +94,27 @@ app.post('/postRegistration', function(request, response){
 		response.render('registration', {username: username, errorMessage: 'Password cannot be blank/empty'});
 	}
 	User.find({username: username}).then(function(result){
+		console.log(result);
+		console.log(password);
+		console.log(confirm);
+		console.log(result);
 		if (result.length > 0) {
-			if (!password.equals(confirm)) {
-				response.render('registration', {username: username, errorMessage: 'Password does not match'});
+			response.render('registration', {username: username, errorMessage: 'Username taken'});	
+		} else if (!(password === confirm)) {
+				console.log('nomatch');
+				response.render('registration', {username: username, errorMessage: 'Passwords does not match'});
+			}
+		console.log('success');
+		var hash = bcrypt.hashSync(password);
+		var newUser = new User({username: username, password: hash});
+		newUser.save(function(error){
+			if(error) {
+				response.render('registration', {message: 'An error occur while trying to register'});	
 			}
 			response.render('login', {message: 'Registration successful'});
-		} 
-		response.render('registration', {username: username, errorMessage: 'Username taken'});
+		});
 	});
+
 });
 
 app.set('port', process.env.PORT || 3000);
