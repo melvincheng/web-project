@@ -28,3 +28,6 @@ html(lang="en")
 
 			div.alternative
 				a(href="/registration") Sign up here
+
+			if(errorMessage)
+				div#message #{errorMessage}

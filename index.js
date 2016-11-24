@@ -84,12 +84,18 @@ app.post('/postLogin', function(request, response){
 	} else if (password.trim() === '') {
 		response.render('login', {errorMessage:'Password cannot be blank/empty'});
 	} else {
-		var hash = bcrypt.hashSync(password);
-		User.find({username: username, password: hash}).then(function(result){
+		User.find({username: username}).then(function(result){
 			if(result.length > 0) {
-				response.render('login', {errorMessage:'Username/password is incorrect'});
+				var hash = bcrypt.hashSync(password);
+				User.find({username: username, password: hash}).then(function(result){
+					if(result.length > 0) {
+						response.redirect('/');
+					} else {
+						response.render('login', {errorMessage:'Password is incorrect'});
+					}
+				});
 			} else {
-				response.redirect('/');
+				response.render('login', {errorMessage:'Username does not exist'});
 			}
 		});
 	}
