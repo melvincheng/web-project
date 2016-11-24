@@ -1,0 +1,30 @@
+doctype html
+html(lang="en")
+	head
+		title Login
+
+		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+
+		link(rel="stylesheet", href="/logReg.css")
+	body
+		if(message)
+			div #{message}
+
+		header 
+			a(href="/") All News
+		header Login
+		form.form-horizontal(action="/postLogin",method="post")
+			div.form-group
+				label.col-md-offset-1 Username:
+				div.col-md-offset-1.col-md-10
+					input.form-control(type="text")
+
+			div.form-group
+				label.col-md-offset-1 Password:
+				div.col-md-offset-1.col-md-10
+					input.form-control(type="password")
+			
+			button.btn.btn-primary.col-md-offset-1.col-md-10(type="submit") Login
+
+			div.alternative
+				a(href="/registration") Sign up here

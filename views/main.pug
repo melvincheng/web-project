@@ -1,17 +1,33 @@
 doctype html
 html(lang="en")
 	head
-		title Enter app name here
+		title News Aggregator
 		
-		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u", crossorigin="anonymous")
+		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+
 		link(rel="stylesheet", href="data.css")
 		
 		script(type="text/javascript", src="https://code.jquery.com/jquery-3.0.0.min.js")
-		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa", crossorigin="anonymous")
+		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+
 		script(type="text/javaScript", src="data.js")
 	body
-		nav(class="navbar navbar-default")
-			header Enter app name here
+		nav.navbar.navbar-default
+			div.container-fluid
+				div.navbar-header
+					a.navbar-brand(href="/") News Aggregator
+						small Powered by News API
+				if (!username || (username == ''))
+					ul.nav.navbar-nav.navbar-right
+						li
+							a(href="/login")
+								span.glyphicon.glyphicon-log-in  Login
+						li
+							a(href="/registration")
+								span.glyphicon.glyphicon-user  Sign up
+				else
+					div #{username}
+					button.nav-btn(href="/logout") Log out
+		div(name="articles")
 		footer
-			| Powered by 
 			a(href="https://newsapi.org/") News API

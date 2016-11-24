@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	var body = document.getElementsByTagName('body');
+	var body = document.getElementsByName('articles');
 	var sort = 'category';
 	var sources;
 	var articleList = [];

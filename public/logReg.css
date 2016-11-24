@@ -1,0 +1,25 @@
+form {
+	width: 25%;
+	margin: 0 auto;
+	background-color: lightgray;
+	padding: 25px;
+	border-radius: 20px;
+}
+
+button {
+    font-size: 1em;
+}
+
+header {
+	font-size: 4em;
+	text-align: center;
+}
+
+.alternative {
+	margin-top: 64px;
+	text-align: center;
+}
+
+#message {
+	text-align: center;
+}

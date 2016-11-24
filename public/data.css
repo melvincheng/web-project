@@ -63,6 +63,11 @@
 }
 
 .logo {
-	margin: 0 10px 0 0;
 	max-height: 36px;
 }
+
+.navbar-brand small {
+	display: block;
+	font-size: 12px;
+}
+
