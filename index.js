@@ -72,9 +72,29 @@ app.get('/login', notLogged, function(request, response){
 	response.render('login');
 });
 
-app.post('/login', function(request, response){
-	User.find({username: username})
+app.get('/postLogin', function(request, response){
+	response.redirect('/login');
 });
+
+app.post('/postLogin', function(request, response){
+	var username = request.body.username;
+	var password = request.body.password;
+	if (username.trim() === '') {
+		response.render('login', {errorMessage:'Username cannot be blank/empty'});
+	} else if (password.trim() === '') {
+		response.render('login', {errorMessage:'Password cannot be blank/empty'});
+	} else {
+		var hash = bcrypt.hashSync(password);
+		User.find({username: username, password: hash}).then(function(result){
+			if(result.length > 0) {
+				response.render('login', {errorMessage:'Username/password is incorrect'});
+			} else {
+				response.redirect('/');
+			}
+		});
+	}
+});
+
 
 app.get('/registration', notLogged, function(request, response){
 	response.render('registration');
@@ -89,20 +109,20 @@ app.post('/postRegistration', function(request, response){
 	var password = request.body.password;
 	var confirm = request.body.confirm;
 	if(username.trim() === '') {
-		response.render('registration', {username: username, errorMessage: 'Username cannot be blank/empty'});
+		response.render('registration', {errorMessage: 'Username cannot be blank/empty'});
 	} else if (password.trim() === ''){
-		response.render('registration', {username: username, errorMessage: 'Password cannot be blank/empty'});
+		response.render('registration', {errorMessage: 'Password cannot be blank/empty'});
 	} else {
 		User.find({username: username}).then(function(result){
 			if (result.length > 0) {
-				response.render('registration', {username: username, errorMessage: 'Username taken'});	
+				response.render('registration', {errorMessage: 'Username taken'});	
 	
 			} else if (!(password === confirm)) {
 				console.log('nomatch');
-				response.render('registration', {username: username, errorMessage: 'Passwords does not match'});
+				response.render('registration', {errorMessage: 'Passwords does not match'});
 			} else {
 				var hash = bcrypt.hashSync(password);
-				var newUser = new User({username: username, password: hash});
+				var newUser = new User({password: hash});
 	
 				newUser.save(function(error){
 					if(error) {
@@ -114,8 +134,9 @@ app.post('/postRegistration', function(request, response){
 			}
 		});
 	}
-
 });
+
+
 
 app.set('port', process.env.PORT || 3000);
 
