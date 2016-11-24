@@ -12,7 +12,7 @@ html(lang="en")
 
 		script(type="text/javaScript", src="data.js")
 	body
-		nav.navbar.navbar-default
+		nav.navbar.navbar-default.navbar-fixed-top
 			div.container-fluid
 				div.navbar-header
 					a.navbar-brand(href="/") News Aggregator
@@ -32,7 +32,11 @@ html(lang="en")
 								span.caret
 							ul.dropdown-menu
 								li
-									a(href="/logout") Logout
+									a(href="/setting")
+										span.glyphicon.glyphicon-cog  Settings
+								li
+									a(href="/logout") 
+										span.glyphicon.glyphicon-remove  Logout
 
 					
 		div(name="articles")

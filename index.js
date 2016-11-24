@@ -137,6 +137,11 @@ app.post('/postRegistration', function(request, response){
 	}
 });
 
+app.get('/logout', function(request, response){
+	request.session.username = null;
+	response.redirect('/');
+});
+
 
 
 app.set('port', process.env.PORT || 3000);
