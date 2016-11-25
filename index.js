@@ -14,7 +14,9 @@ var userSchema = new Schema({
 	username: {type: String,
 			  unique: true,
 			  index: true},
-	password: String
+	password: String,
+	category: [String],
+	source: [String]
 });
 
 var User = mongoose.model('user', userSchema);
@@ -38,8 +40,7 @@ app.use(session({
 
 
 function notLogged(request, response, next) {
-	console.log(request.user);
-	if(request.user){
+	if(request.session.username){
 		response.redirect('/');
 	} else {
 		next();
@@ -47,7 +48,7 @@ function notLogged(request, response, next) {
 }
 
 function logged(request, response, next) {
-	if(request.user){
+	if(request.session.username){
 		next();
 	} else {
 		response.redirect('/');
@@ -62,8 +63,23 @@ function getUsername(request) {
 	return username;
 }
 
+app.post('data.js', function(request, response) {
+	response.send('lel');
+});
+
+
+
 app.get('/', function(request, response){
-	response.render('main', {username:getUsername(request)});
+	var category = [];
+	var source = [];
+	User.findOne({username: getUsername(request)}, {category: 1, source: 1}, function(err, doc) {
+		if(doc){
+			category = doc.category;
+			source = doc.source;
+			}
+	}).then(function (){
+		response.render('main', {username:getUsername(request), category: category, source: source} );
+	});	
 });
 
 app.get('/login', notLogged, function(request, response){
@@ -120,11 +136,10 @@ app.post('/postRegistration', function(request, response){
 				response.render('registration', {errorMessage: 'Username taken'});	
 	
 			} else if (!(password === confirm)) {
-				console.log('nomatch');
 				response.render('registration', {errorMessage: 'Passwords does not match'});
 			} else {
 				var hash = bcrypt.hashSync(password);
-				var newUser = new User({username:username, password: hash});
+				var newUser = new User({username:username, password: hash, category: [], source: [], });
 				newUser.save(function(error){
 					if(error) {
 						response.render('registration', {message: 'An error occur while trying to register'});	
@@ -137,8 +152,35 @@ app.post('/postRegistration', function(request, response){
 	}
 });
 
+app.get('/settings', logged, function(request, response){
+	User.findOne({username: getUsername(request)}, {category: 1, source: 1}, function(err, doc) {
+		if(doc){
+			category = doc.category;
+			source = doc.source;
+			}
+	}).then(function (){
+		response.render('settings', {username: request.session.username, category: category, source: source});
+	});	
+});
+
+app.get('/save', logged, function (request, response) {
+	var newSource = request.query.userSelected;
+	var message;
+	console.log('runnin3');
+	User.findOneAndUpdate({username: request.session.username}, {source: newSource}, function (err, doc) {
+		console.log('running2');
+		if(err) {
+			message = "Failed to update settings";
+		}
+		if(doc) {
+			message = "Settings have been successfully updated";
+		}
+	});
+});
+
+
 app.get('/logout', function(request, response){
-	request.session.username = null;
+	request.session.destroy();
 	response.redirect('/');
 });
 

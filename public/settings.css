@@ -1,0 +1,48 @@
+.sortHeader {
+/*	height: 100%;*/
+	padding: 0 10px 0 10px;
+  	font-size: 3em;
+	border-radius: 3px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: lightgray;
+}
+
+.sortHeader:hover {
+	background-color: lightslategray;
+	color: white;
+}
+
+.selected {
+	background-color: lightslategray;
+	color: white;
+}
+
+.category {
+	border-radius: 3px;
+/*	border-style: solid;*/
+	border-width: 1px;
+	border-color: lightgray;
+	margin: 0 20px 5px 20px;
+}
+
+.logo {
+	max-height: 36px;
+}
+
+.navbar-brand small {
+	display: block;
+	font-size: 12px;
+}
+
+button {
+	margin-right: 5px;
+	
+}
+button a {
+	color: #FFFFFF;
+}
+
+body {
+	padding: 70px;
+}

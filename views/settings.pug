@@ -1,0 +1,43 @@
+doctype html
+html(lang="en")
+	head
+		title Settings
+
+		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+
+		link(rel="stylesheet", href="settings.css")
+
+		script(type="text/javascript", src="https://code.jquery.com/jquery-3.0.0.min.js")
+
+		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+
+		script.
+			var userCategory = !{JSON.stringify(category)};
+			var userSource = !{JSON.stringify(source)};
+		script(type="text/javaScript", src="settings.js")
+
+	body
+		if(message)
+			div#message message
+		nav.navbar.navbar-default.navbar-fixed-top
+			div.container-fluid
+				div.navbar-header
+					a.navbar-brand(href="/") News Aggregator
+						small Powered by News API
+				ul.nav.navbar-nav.navbar-right
+					div.navbar-text Welcome, 
+					li.dropdown 
+						a.toggle-dropdown(data-toggle="dropdown") #{username}
+							span.caret
+						ul.dropdown-menu
+							li
+								a(href="/settings")
+									span.glyphicon.glyphicon-cog  Settings
+							li
+								a(href="/logout") 
+									span.glyphicon.glyphicon-remove  Logout
+					button.btn.navbar-btn.btn-primary#save
+						a(href="#") Save
+					button.btn.navbar-btn.btn-danger#cancel
+						a(href="/") Cancel
+		div(name="settings")

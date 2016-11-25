@@ -3,8 +3,6 @@ $(document).ready(function () {
 	var sort = 'category';
 	var sources;
 	var articleList = [];
-	var language;
-	var country;
 	
 	function getSource() {
 		return $.ajax({
@@ -20,6 +18,7 @@ $(document).ready(function () {
 		var pulledArticle = $(data).attr('articles');
 //		console.log(data);
 		for(var i = 0; i < pulledArticle.length; i++) {
+
 			var currentArticle = pulledArticle[i];
 			var article = $('<div>');
 			var title = $('<div>');
@@ -80,35 +79,36 @@ $(document).ready(function () {
 		var sourceId = [];
 		return $.each(sources, function(index, data){
 //			console.log(data);
-			
-			var sourceHeader = $('<div>');
-			var sourceLogo = $('<img>').addClass('logo').attr('src', $($(data).attr('urlsToLogos')).attr('large'));
-			var sourceDiv = $('<div>').attr('id',$(data).attr('name'));
-			var sourceArticle = $('<div>').addClass('collapse').attr('id',$(data).attr('id'));
-			
-			sourceDiv.append(sourceHeader);
-			sourceDiv.append(sourceArticle);
-			sourceDiv.addClass('category');
-			
-			sourceArticleDivList.push(sourceArticle);
-			
-			sourceHeader.append(sourceLogo);
-			sourceHeader.append($(data).attr('name'));
-			sourceHeader.addClass('sortHeader');
-			sourceHeader.attr('data-toggle','collapse').attr('data-target','#' + $(data).attr('id'));
-			
-			$(body).append(sourceDiv);
-			
 			var sourceOrigin = $(data).attr('id');
-			sourceId.push(sourceOrigin);
-			sourceLink = 'https://newsapi.org/v1/articles?source=' + sourceOrigin + '&apiKey=98432bdc8b0d474797f981385df66c5f';
-			$.ajax({
-				url: sourceLink,
-				success: function(data) {
-					articleList.push(data);
-					addArticleSource(data, sourceArticleDivList[sourceId.indexOf($(data).attr('source'))]);
-				}
-			});
+			if(userSource.length == 0 || $.inArray(sourceOrigin, userSource) != -1){
+				var sourceHeader = $('<div>');
+				var sourceLogo = $('<img>').addClass('logo').attr('src', $($(data).attr('urlsToLogos')).attr('large'));
+				var sourceDiv = $('<div>').attr('id',$(data).attr('name'));
+				var sourceArticle = $('<div>').addClass('collapse').attr('id',$(data).attr('id'));
+				
+				sourceDiv.append(sourceHeader);
+				sourceDiv.append(sourceArticle);
+				sourceDiv.addClass('category');
+				
+				sourceArticleDivList.push(sourceArticle);
+				
+				sourceHeader.append(sourceLogo);
+				sourceHeader.append($(data).attr('name'));
+				sourceHeader.addClass('sortHeader');
+				sourceHeader.attr('data-toggle','collapse').attr('data-target','#' + $(data).attr('id'));
+				
+				$(body).append(sourceDiv);
+				
+				sourceId.push(sourceOrigin);
+				sourceLink = 'https://newsapi.org/v1/articles?source=' + sourceOrigin + '&apiKey=98432bdc8b0d474797f981385df66c5f';
+				$.ajax({
+					url: sourceLink,
+					success: function(data) {
+						articleList.push(data);
+						addArticleSource(data, sourceArticleDivList[sourceId.indexOf($(data).attr('source'))]);
+					}
+				});
+			}
 		});	
 	}
 	
@@ -250,5 +250,5 @@ $(document).ready(function () {
 	}
 
 	getSource().then(displaySource);
-//	getSource().then(displayCategory);
+	// getSource().then(displayCategory);
 });

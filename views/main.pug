@@ -8,8 +8,12 @@ html(lang="en")
 		link(rel="stylesheet", href="data.css")
 		
 		script(type="text/javascript", src="https://code.jquery.com/jquery-3.0.0.min.js")
+
 		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
 
+		script.
+			var userCategory = !{JSON.stringify(category)};
+			var userSource = !{JSON.stringify(source)};
 		script(type="text/javaScript", src="data.js")
 	body
 		nav.navbar.navbar-default.navbar-fixed-top
@@ -32,7 +36,7 @@ html(lang="en")
 								span.caret
 							ul.dropdown-menu
 								li
-									a(href="/setting")
+									a(href="/settings")
 										span.glyphicon.glyphicon-cog  Settings
 								li
 									a(href="/logout") 
