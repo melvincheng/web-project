@@ -166,15 +166,14 @@ app.get('/settings', logged, function(request, response){
 app.get('/save', logged, function (request, response) {
 	var newSource = request.query.userSelected;
 	var message;
-	console.log('runnin3');
 	User.findOneAndUpdate({username: request.session.username}, {source: newSource}, function (err, doc) {
-		console.log('running2');
 		if(err) {
 			message = "Failed to update settings";
 		}
 		if(doc) {
 			message = "Settings have been successfully updated";
 		}
+		response.redirect('/');
 	});
 });
 

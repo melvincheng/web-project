@@ -17,8 +17,6 @@ html(lang="en")
 		script(type="text/javaScript", src="settings.js")
 
 	body
-		if(message)
-			div#message message
 		nav.navbar.navbar-default.navbar-fixed-top
 			div.container-fluid
 				div.navbar-header
@@ -36,7 +34,7 @@ html(lang="en")
 							li
 								a(href="/logout") 
 									span.glyphicon.glyphicon-remove  Logout
-					button.btn.navbar-btn.btn-primary#save
+					button.btn.navbar-btn.btn-primary#save(type="submit")
 						a(href="#") Save
 					button.btn.navbar-btn.btn-danger#cancel
 						a(href="/") Cancel

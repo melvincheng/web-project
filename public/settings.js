@@ -50,6 +50,7 @@ $(document).ready(function () {
 		});
 		var data = {userSelected};
 		$.get('/save', data).then(function () {
+			console.log('run');
 			window.location.href = '/';
 		});
 	});
