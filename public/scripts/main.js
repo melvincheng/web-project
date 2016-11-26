@@ -17,7 +17,7 @@ $(document).ready(function () {
 	
 	function addArticleSource(data, sourceDiv) {
 		var pulledArticle = $(data).attr('articles');
-//		console.log(data);
+		// console.log(data);
 		for(var i = 0; i < pulledArticle.length; i++) {
 
 			var currentArticle = pulledArticle[i];
