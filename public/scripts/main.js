@@ -1,9 +1,10 @@
 $(document).ready(function () {
 	var body = document.getElementsByName('articles');
+	var sidePanel = document.getElementsByName('side');
 	var sort = 'category';
 	var sources;
 	var articleList = [];
-	
+
 	function getSource() {
 		return $.ajax({
 			url:'https://newsapi.org/v1/sources',
@@ -80,7 +81,12 @@ $(document).ready(function () {
 		return $.each(sources, function(index, data){
 //			console.log(data);
 			var sourceOrigin = $(data).attr('id');
+			if(userSource == null) {
+				userSource = [];
+			}
 			if(userSource.length == 0 || $.inArray(sourceOrigin, userSource) != -1){
+				var sideLink = ($('<li>')).append($('<a>').addClass('sideLink'));
+
 				var sourceHeader = $('<div>');
 				var sourceLogo = $('<img>').addClass('logo').attr('src', $($(data).attr('urlsToLogos')).attr('large'));
 				var sourceDiv = $('<div>').attr('id',$(data).attr('name'));
@@ -92,6 +98,8 @@ $(document).ready(function () {
 				
 				sourceArticleDivList.push(sourceArticle);
 				
+				sideLink.append($(data).attr('name'));
+
 				sourceHeader.append(sourceLogo);
 				sourceHeader.append($(data).attr('name'));
 				sourceHeader.addClass('sortHeader');
@@ -101,6 +109,15 @@ $(document).ready(function () {
 				
 				sourceId.push(sourceOrigin);
 				sourceLink = 'https://newsapi.org/v1/articles?source=' + sourceOrigin + '&apiKey=98432bdc8b0d474797f981385df66c5f';
+
+				$(sideLink).click(function () {
+					$('html, body').animate({
+						scrollTop: $(sourceHeader).offset().top - 50
+					});
+				});
+
+				$(sidePanel).append(sideLink);
+
 				$.ajax({
 					url: sourceLink,
 					success: function(data) {
@@ -118,7 +135,22 @@ $(document).ready(function () {
 		var categoryDiv = [$('<div>'), $('<div>'), $('<div>'), $('<div>'), $('<div>'), $('<div>'), $('<div>'), $('<div>')];
 		var categoryArticles = [];
 		
-		for(var i = 0; i < category.length; i++) {
+		if(userCategory == null || userCategory.length == 0) {
+			userCategory = category;
+		}
+		for(var i = 0; i < userCategory.length; i++) {
+			var sideLink = ($('<li>')).append($('<a>').addClass('sideLink'));
+
+			sideLink.append(categoryName[i]);
+
+			$(sideLink).click(function () {
+				$('html, body').animate({
+					scrollTop: $(sourceHeader).offset().top - 50
+				});
+			});
+
+			$(sidePanel).append(sideLink);
+
 			var tempDiv = categoryDiv[i];
 			var tempArticle = $('<div>');
 			
@@ -136,55 +168,56 @@ $(document).ready(function () {
 			var index = category.indexOf($(sources[j]).attr('category'));
 		
 			var tempCategoryArticle = categoryArticles[index];
-				
-			switch($(sources[j]).attr('category')){
-				case 'business':
-					$.get(sourceLink, function(data){
-						addArticleCategory(data, categoryArticles[0]);
-					});
-					break;
-				case 'entertainment':
-					$.get(sourceLink, function(data) {
-						
-						addArticleCategory(data, categoryArticles[1]);
-					});
-					break;
-				case 'gaming':
-					$.get(sourceLink, function(data) {
-						
-						addArticleCategory(data, categoryArticles[2]);
-					});
-					break;
-				case 'general':
-					$.get(sourceLink, function(data) {
-						
-						addArticleCategory(data, categoryArticles[3]);
-					});
-					break;
-				case 'music':
-					$.get(sourceLink, function(data) {
-						
-						addArticleCategory(data, categoryArticles[4]);
-					});
-					break;
-				case 'science-and-nature':
-					$.get(sourceLink, function(data) {
-						
-						addArticleCategory(data, categoryArticles[5]);
-					});
-					break;
-				case 'sport':
-					$.get(sourceLink, function(data) {
-						
-						addArticleCategory(data, categoryArticles[6]);
-					});
-					break;
-				case 'technology':
-					$.get(sourceLink, function(data) {
-						
-						addArticleCategory(data, categoryArticles[7]);
-					});
-					break;
+			if($.inArray($(sources[j]).attr('category'), userCategory) != -1) {
+				switch($(sources[j]).attr('category')){
+					case 'business':
+						$.get(sourceLink, function(data){
+							addArticleCategory(data, categoryArticles[0]);
+						});
+						break;
+					case 'entertainment':
+						$.get(sourceLink, function(data) {
+							
+							addArticleCategory(data, categoryArticles[1]);
+						});
+						break;
+					case 'gaming':
+						$.get(sourceLink, function(data) {
+							
+							addArticleCategory(data, categoryArticles[2]);
+						});
+						break;
+					case 'general':
+						$.get(sourceLink, function(data) {
+							
+							addArticleCategory(data, categoryArticles[3]);
+						});
+						break;
+					case 'music':
+						$.get(sourceLink, function(data) {
+							
+							addArticleCategory(data, categoryArticles[4]);
+						});
+						break;
+					case 'science-and-nature':
+						$.get(sourceLink, function(data) {
+							
+							addArticleCategory(data, categoryArticles[5]);
+						});
+						break;
+					case 'sport':
+						$.get(sourceLink, function(data) {
+							
+							addArticleCategory(data, categoryArticles[6]);
+						});
+						break;
+					case 'technology':
+						$.get(sourceLink, function(data) {
+							
+							addArticleCategory(data, categoryArticles[7]);
+						});
+						break;
+				}
 			}
 		}
 	}
@@ -249,6 +282,19 @@ $(document).ready(function () {
 		}
 	}
 
-	getSource().then(displaySource);
-	// getSource().then(displayCategory);
+	getSource().then(function() {
+		displaySource();
+		var articlesDiv = document.getElementsByName('articles');
+		$('#source').click(function () {
+			$(articlesDiv).empty();
+			$(sidePanel).empty();
+			displaySource();
+		});
+
+		$('#category').click(function () {
+			$(articlesDiv).empty();
+			$(sidePanel).empty();
+			displayCategory();
+		});
+	});
 });

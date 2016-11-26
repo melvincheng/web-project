@@ -6,8 +6,8 @@
 	font-size: .75em;
 }
 
-.description {
-
+#api {
+	text-align: right;
 }
 
 .link {
@@ -60,6 +60,7 @@
 	border-width: 1px;
 	border-color: lightgray;
 	margin: 0 20px 5px 20px;
+	background-color: #FFFFFF;
 }
 
 .logo {
@@ -72,5 +73,27 @@
 }
 
 body {
-	padding: 70px;
+	padding: 50px;
+	background-color: #F5F5F5;
+}
+
+#message {
+	border-style: solid;
+	border-color: #FF851B;
+	border-radius: 5px;
+	background-color: #FFDC00;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.side {
+	position: fixed;
+	left: 0;
+	height: auto;
+	overflow: auto;
+	max-height: calc(100% - 50px);
+	min-height: calc(100% - 50px);
+	list-style-type: none;
+	background-color: #DCDCDC;
+	padding: 25px;
 }

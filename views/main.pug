@@ -1,11 +1,11 @@
 doctype html
 html(lang="en")
 	head
-		title News Aggregator
+		title AllNews
 		
 		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
 
-		link(rel="stylesheet", href="data.css")
+		link(rel="stylesheet", href="styles/main.css")
 		
 		script(type="text/javascript", src="https://code.jquery.com/jquery-3.0.0.min.js")
 
@@ -14,14 +14,27 @@ html(lang="en")
 		script.
 			var userCategory = !{JSON.stringify(category)};
 			var userSource = !{JSON.stringify(source)};
-		script(type="text/javaScript", src="data.js")
+		script(type="text/javaScript", src="scripts/main.js")
 	body
+		if(message)
+			div#message #{message}
+
+		ul.side.col-md-2(name="side")
+
 		nav.navbar.navbar-default.navbar-fixed-top
 			div.container-fluid
 				div.navbar-header
-					a.navbar-brand(href="/") News Aggregator
+					a.navbar-brand(href="/") AllNews
 						small Powered by News API
 				ul.nav.navbar-nav.navbar-right
+					li.dropdown
+						a.toggle-dropdown(data-toggle="dropdown") Sort by
+							span.caret
+						ul.dropdown-menu
+							li#category 
+								a(href="#") Category
+							li#source 
+								a(href="#") Source
 					if (!username || (username == ''))
 						li
 							a(href="/login")
@@ -43,6 +56,7 @@ html(lang="en")
 										span.glyphicon.glyphicon-remove  Logout
 
 					
-		div(name="articles")
+		div.col-md-offset-2.col-md-10(name="articles")
 		footer
-			a(href="https://newsapi.org/") News API
+			div#api Powered by: 
+				a(href="https://newsapi.org/") News API

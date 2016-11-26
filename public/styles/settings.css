@@ -6,6 +6,7 @@
 	border-style: solid;
 	border-width: 1px;
 	border-color: lightgray;
+	background-color: #FFFFFF;
 }
 
 .sortHeader:hover {
@@ -40,9 +41,15 @@ button {
 	
 }
 button a {
+	display: block;
 	color: #FFFFFF;
 }
 
 body {
 	padding: 70px;
+	background-color: #F5F5F5;
+}
+
+#delete {
+	width: 100%;
 }

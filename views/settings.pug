@@ -5,7 +5,7 @@ html(lang="en")
 
 		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
 
-		link(rel="stylesheet", href="settings.css")
+		link(rel="stylesheet", href="/styles/settings.css")
 
 		script(type="text/javascript", src="https://code.jquery.com/jquery-3.0.0.min.js")
 
@@ -14,7 +14,7 @@ html(lang="en")
 		script.
 			var userCategory = !{JSON.stringify(category)};
 			var userSource = !{JSON.stringify(source)};
-		script(type="text/javaScript", src="settings.js")
+		script(type="text/javaScript", src="scripts/settings.js")
 
 	body
 		nav.navbar.navbar-default.navbar-fixed-top
@@ -23,6 +23,14 @@ html(lang="en")
 					a.navbar-brand(href="/") News Aggregator
 						small Powered by News API
 				ul.nav.navbar-nav.navbar-right
+					li.dropdown
+						a.toggle-dropdown(data-toggle="dropdown") Sort by
+							span.caret
+						ul.dropdown-menu
+							li#category 
+								a(href="#") Category
+							li#source 
+								a(href="#") Source
 					div.navbar-text Welcome, 
 					li.dropdown 
 						a.toggle-dropdown(data-toggle="dropdown") #{username}
@@ -39,3 +47,5 @@ html(lang="en")
 					button.btn.navbar-btn.btn-danger#cancel
 						a(href="/") Cancel
 		div(name="settings")
+		button.btn.btn-danger#delete
+			a(href="/delete") Delete account

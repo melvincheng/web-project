@@ -63,27 +63,23 @@ function getUsername(request) {
 	return username;
 }
 
-app.post('data.js', function(request, response) {
-	response.send('lel');
-});
-
-
 
 app.get('/', function(request, response){
 	var category = [];
 	var source = [];
+	var message = '';
 	User.findOne({username: getUsername(request)}, {category: 1, source: 1}, function(err, doc) {
 		if(doc){
 			category = doc.category;
 			source = doc.source;
 			}
 	}).then(function (){
-		response.render('main', {username:getUsername(request), category: category, source: source} );
+		response.render('main', {username:getUsername(request), category: category, source: source, message: message} );
 	});	
 });
 
 app.get('/login', notLogged, function(request, response){
-	response.render('login');
+	response.render('login', {message: ''});
 });
 
 app.get('/postLogin', function(request, response){
@@ -164,25 +160,36 @@ app.get('/settings', logged, function(request, response){
 });
 
 app.get('/save', logged, function (request, response) {
-	var newSource = request.query.userSelected;
-	var message;
-	User.findOneAndUpdate({username: request.session.username}, {source: newSource}, function (err, doc) {
-		if(err) {
-			message = "Failed to update settings";
-		}
-		if(doc) {
-			message = "Settings have been successfully updated";
-		}
-		response.redirect('/');
-	});
+	if (request.query.mode == 'source'){
+		User.findOneAndUpdate({username: request.session.username}, {source: request.query.userSelected}, function (err, doc) {
+			response.redirect('/');
+		});
+	} else if (request.query.mode == 'category'){
+		User.findOneAndUpdate({username: request.session.username}, {category: request.query.userSelected}, function (err, doc) {
+			response.redirect('/');
+		});
+	}
 });
 
 
-app.get('/logout', function(request, response){
+app.get('/logout', logged, function(request, response){
 	request.session.destroy();
 	response.redirect('/');
 });
 
+app.get('/delete', logged, function(request, response){
+	User.remove({username: request.session.username}, function (err) {
+		var options;
+		if(err) {
+			message = 'Account has not been deleted';
+		} else {
+			request.session.destroy();
+			message = 'Account has been successfully deleted';
+			options = {category: [], source: []};
+		}
+		response.render('main', {message: message, options});
+	});
+});
 
 
 app.set('port', process.env.PORT || 3000);
